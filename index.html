@@ -7,6 +7,9 @@
 		<h2>{{title}}</h2>
 		<table style="width: 100%;">
 			<tr>
+				<td>
+					<div hc-columnrange></div>
+				</td>
 				<td style=" vertical-align:top; width:30%;">
 					<h3>{{timeRunning}}s</h3>
 					{{running?"Corriendo":"Detenido"}} 
@@ -44,9 +47,7 @@
 						
 					</table>
 				</td>
-				<td>
-					<div hc-columnrange></div>
-				</td>
+				
 			</tr>
 		</table>		
 	</section>
@@ -54,8 +55,8 @@
 
 	<script src="jquery-2.1.4.min.js"></script>
 	<script src="angular.min.js"></script>
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="highcharts.js"></script>
+	<script src="highcharts-more.js"></script>
 	<script src="fcfs.js"></script>
 
 </body>
