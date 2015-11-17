@@ -1,88 +1,25 @@
 $(function () {
 
-    $('#container').highcharts({
-
-        chart: {
-            type: 'columnrange',
-            inverted: false
-            
-        },
-
-        title: {
-            text: 'Temperature variation by month'
-        },
-
-        subtitle: {
-            text: 'Observed in Vik i Sogn, Norway'
-        },
-
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-
-        yAxis: {
-            title: {
-                text: 'Temperature ( °C )'
-            }
-        },
-
-        tooltip: {
-            valueSuffix: '°C'
-        },
-
-        plotOptions: {
-            columnrange: {
-                dataLabels: {
-                    enabled: true,
-                    formatter: function () {
-                        return this.y + '°C';
-                    }
-                }
-            }
-        },
-
-        legend: {
-            enabled: false
-        },
-
-        series: [{
-            name: 'Temperatures',
-            data: [
-            [-9.7, 9.4],
-            [-8.7, 6.5],
-            [-3.5, 9.4],
-            [-1.4, 19.9],
-            [0.0, 22.6],
-            [2.9, 29.5],
-            [9.2, 30.7],
-            [7.3, 26.5],
-            [4.4, 18.0],
-            [-3.1, 11.4],
-            [-5.2, 10.4],
-            [-13.5, 9.8]
-            ]
-        }]
-
-    });
-
-
 
 });
 
 var app = angular.module("app",[]);
-app.controller("fcfsController",["$scope",function($scope){
+var c = app.controller("fcfsController",["$scope",function($scope){
     $scope.title = "FCFS";
     $scope.count=1;
     $scope.processes = [];
-    $scope.process = {id:$scope.count};
+    $scope.process = {id:$scope.count,name:"proceso 1"};
     $scope.agregar = function(){
         if(validar($scope.process)){
-            $scope.processes.push(angular.copy($scope.process));
-            $scope.process.name = "";
+            var p = angular.copy($scope.process);
+            p.tInicio = 0;
+            p.tFin = 10;
+            $scope.processes.push(p);
             $scope.process.id=++$scope.count;
+            $scope.process.name = "proceso "+$scope.count;
             $scope.process.tCome = 0;
             $scope.process.tService = 0;
-            $scope.$apply();    
+            //$scope.$apply();    
         }
     }
     function validar(process){
@@ -92,5 +29,81 @@ app.controller("fcfsController",["$scope",function($scope){
         return false;
 
     }
+    $scope.$watch("processes",function(newValue){
+        var chart = $('#container').highcharts();
+        var names=[];
+        var values = [];
+        for(var i in newValue){
+            names.push(newValue[i].name)
+            values.push([newValue[i].tInicio, newValue[i].tFin]);
+        }
+        chart.xAxis[0].setCategories(names);
+        chart.series[0].setData(values);
+    },true);
+    setInterval(function(){
+        console.log("update!");
+        var chart = $('#container').highcharts();
+        for(var i in $scope.processes){
+            console.log("x");
+            $scope.processes[i].tFin++;
+            $scope.processes[i].tInicio++;
+            chart.series[0].data[i].update([$scope.processes[i].tInicio, $scope.processes[i].tFin]);
+        }
+        $scope.$apply();
+    },1000);
 
-}]);
+}]).directive("hcColumnrange", function(){
+    return {
+        scope: {
+          items: '='
+        },
+        template: '<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto">',
+        link: function(scope, element, attrs){
+            $('#container').highcharts({
+                chart: {
+                    type: 'columnrange',
+                    inverted: false,
+                },
+                title: {
+                    text: 'Procesos'
+                },
+                
+                xAxis: {
+                    categories: ['Jan']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Tiempo (s)'
+                    },
+                    max: 100
+                },
+                tooltip: {
+                    valueSuffix: 's'
+                },
+                plotOptions: {
+                    columnrange: {
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function () {
+                                return this.y + 's';
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Procesos',
+                    data: [
+                    [-9.7, 9.4],
+                    
+                    ]
+                }]
+            });
+            
+
+        }
+}
+
+})
