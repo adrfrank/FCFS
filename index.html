@@ -1,0 +1,49 @@
+<html>
+<head>
+	<title>FCFS</title>
+</head>
+<body ng-app="app">
+	<section ng-controller="fcfsController">
+		<h2>{{title}}</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Tiempo de llegada</th>
+					<th>Tiempo de servicio</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="p in processes">
+				<tr>
+					<td>{{p.id}}</td>
+					<td>{{p.name}}</td>
+					<td>{{p.tCome}}</td>
+					<td>{{p.tService}}</td>
+					<td></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td>{{process.id}}</td>
+					<td><input type="text" ng-model="process.name"></td>
+					<td><input type="text" ng-model="process.tCome"></td>
+					<td><input type="text" ng-model="process.tService"></td>
+					<td><button type="button" ng-click="agregar()">Agregar</button></td>
+				</tr>
+			</tfoot>	
+		</table>
+	</section>
+	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto">
+	</div>
+
+	<script src="jquery-2.1.4.min.js"></script>
+	<script src="angular.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/highcharts-more.js"></script>
+	<script src="fcfs.js"></script>
+
+</body>
+
+</html>
