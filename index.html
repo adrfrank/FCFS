@@ -7,17 +7,28 @@
 		<h2>{{title}}</h2>
 		<table style="width: 100%;">
 			<tr>
-				<td>
+				<td style=" vertical-align:top; width:30%;">
+					<h3>{{timeRunning}}s</h3>
+					{{running?"Corriendo":"Detenido"}} 
+					<button ng-click="running = !running">Iniciar / Parar</button>
 					<table>
 						<thead>
 							<tr>
 								<th>Id</th>
 								<th>Nombre</th>
 								<th>Tiempo de llegada</th>
-								<th>Tiempo de servicio</th>
-								<th>Tiempo de inicio</th>
-								<th>Tiempo de fin</th>
+								<th>Tiempo de servicio</th>								
+								<th>Tiempo en ejecucion</th>
 								<th></th>
+							</tr>
+							<tr>
+								<td>{{process.id}}</td>
+								<td><input type="text" ng-model="process.name"></td>
+								<td><input type="text" ng-model="process.tCome"></td>
+								<td><input type="text" ng-model="process.tService"></td>
+							
+								<td></td>
+								<td><button type="button" ng-click="agregar()">Agregar</button></td>
 							</tr>
 						</thead>
 						<tbody ng-repeat="p in processes">
@@ -25,23 +36,12 @@
 								<td>{{p.id}}</td>
 								<td>{{p.name}}</td>
 								<td>{{p.tCome}}</td>
-								<td>{{p.tService}}</td>
-								<td>{{p.tInicio}}</td>
-								<td>{{p.tFin}}</td>
-								<td></td>
+								<td>{{p.tService}}</td>								
+								<td>{{p.tEjecutado}}</td>
+								<td><button ng-click="eliminar($index)">Eliminar</button></td>
 							</tr>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td>{{process.id}}</td>
-								<td><input type="text" ng-model="process.name"></td>
-								<td><input type="text" ng-model="process.tCome"></td>
-								<td><input type="text" ng-model="process.tService"></td>
-								<td></td>
-								<td></td>
-								<td><button type="button" ng-click="agregar()">Agregar</button></td>
-							</tr>
-						</tfoot>	
+						
 					</table>
 				</td>
 				<td>
