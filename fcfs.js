@@ -8,7 +8,7 @@ var c = app.controller("fcfsController",["$scope",function($scope){
     $scope.title = "Task manager";
     $scope.count=1;
     $scope.processes = [];
-    $scope.process = {id:$scope.count,name:"proceso 1",tEjecutado:0,tService:0,tCome:0,tFin:0};
+    $scope.process = {id:$scope.count,name:"proceso 1",tEjecutado:0,tService:10,tCome:0,tFin:0};
     $scope.running = false;
     $scope.timeRunning= 0;
     $scope.agregar = function(){
@@ -19,7 +19,7 @@ var c = app.controller("fcfsController",["$scope",function($scope){
             $scope.process.id=++$scope.count;
             $scope.process.name = "proceso "+$scope.count;
             $scope.process.tCome = 0;
-            $scope.process.tService = 0;
+            $scope.process.tService = 10;
             $scope.process.tEjecutado = 0;
             //$scope.$apply();    
         }
